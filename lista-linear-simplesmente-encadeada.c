@@ -111,7 +111,7 @@ int InsFinal(ApontadorCelula * p, Celula celula) {
     }
     else {
         return(FALHA);
-    }p
+    }
 }
 
 
