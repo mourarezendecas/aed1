@@ -1,51 +1,49 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Função para comparar elementos para a função qsort
-int compara(const void *a, const void *b) {
-    return (*(int *)a - *(int *)b);
+// Função para comparar elementos (necessária para a função qsort)
+int compare(const void *a, const void *b) {
+    return (*(int*)a - *(int*)b);
 }
 
 int main() {
     int n, q;
+    int i;
+    int j;
     scanf("%d", &n);
 
-    int *precos = (int *)malloc(n * sizeof(int));
-    for (int i = 0; i < n; i++) {
-        scanf("%d", &precos[i]);
+    int xi[n];
+    for (i = 0; i < n; i++) {
+        scanf("%d", &xi[i]);
     }
 
-    // Ordena o array de preços
-    qsort(precos, n, sizeof(int), compara);
+    // Ordena os preços das lanchonetes em ordem crescente
+    qsort(xi, n, sizeof(int), compare);
 
     scanf("%d", &q);
 
-    for (int i = 0; i < q; i++) {
-        int m;
-        scanf("%d", &m);
+    for (i = 0; i < q; i++) {
+        int mi;
+        scanf("%d", &mi);
 
-        int lanchonetes_possiveis = 0;
-        int *lanchonetes = (int *)malloc(n * sizeof(int));
+        int count = 0;
+        int lanchonetes_compraveis[n];
 
-        // Verifica em quantas lanchonetes John Byte pode comprar
-        for (int j = 0; j < n; j++) {
-            if (precos[j] <= m) {
-                lanchonetes[lanchonetes_possiveis] = j + 1;
-                lanchonetes_possiveis++;
+        // Verifica quantas lanchonetes podem ser compradas com o valor mi
+        for (j = 0; j < n; j++) {
+            if (xi[j] <= mi) {
+                lanchonetes_compraveis[count++] = j + 1;
+                mi -= xi[j];
             }
         }
 
-        // Imprime o resultado
-        printf("%d", lanchonetes_possiveis);
-        for (int j = 0; j < lanchonetes_possiveis; j++) {
-            printf(" %d", lanchonetes[j]);
+        // Imprime o resultado para o i-ésimo dia
+        printf("%d", count);
+        for (j = 0; j < count; j++) {
+            printf(" %d", lanchonetes_compraveis[j]);
         }
         printf("\n");
-
-        free(lanchonetes);
     }
-
-    free(precos);
 
     return 0;
 }
